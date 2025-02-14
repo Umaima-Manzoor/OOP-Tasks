@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+
+class Car {
+    private:
+        string brand;
+        string model;
+        float price;
+        bool status;
+
+    public:
+
+        Car() {
+            brand = "Unknown";
+            model = "Generic";
+            price = 0.0;
+            status = true;
+        }
+
+        void setBrand(string name) {
+            brand = name;
+
+        }
+
+        void setModel(string mo) {
+            model = mo;
+        }
+
+        void setPrice(float p) {
+            price = p;
+        }
+
+        void rentalRequest() {
+            bool check = Availability();
+            if (check == true) {
+                cout << " you have now rented this car"<<endl;
+                status = false;
+            }
+
+        
+        }
+
+        bool Availability() {
+            if (status==true) {
+                cout << "This car is available"<<endl;
+                return true;
+            }
+            else {
+                cout << "This car is not available"<<endl;
+                return false;
+            }
+        }
+}; 
+
+int main() {
+    Car car1;
+    car1.setBrand("Toyota");
+    car1.setPrice(546156.544);
+    car1.rentalRequest();
+    car1.Availability();
+}
