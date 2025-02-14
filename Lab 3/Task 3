@@ -1,0 +1,136 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+class Library {
+    private:
+        string bookList[100];
+        string borrowedBooks[100];
+        string availableBooks[100];
+        int totalBooks;
+        int available;
+        int borrowed;
+
+    public:
+
+        Library() {
+            totalBooks=0;
+            available = 0;
+            borrowed=0;
+        }
+        void addBook() {
+            if (totalBooks < 100) {
+                cout << "Enter the book you would like to add in the library: ";
+                getline(cin, bookList[totalBooks]);
+                availableBooks[available] = bookList[totalBooks];
+                totalBooks++;
+                available++;
+            }
+            else {
+                cout << "Sorry, but there is no space for more books in the library"<<endl;
+            }
+        }
+
+        void lendBook() {
+            string book;
+            cout << "Enter the name of the book you would like to borrow: ";
+            getline(cin, book);
+            for (int i=0; i<available; i++) {
+                if (availableBooks[i] == book) {
+                    
+                    cout << "This book is available. Borrowed successfully"<<endl;
+                    borrowedBooks[borrowed] = availableBooks[i];
+                    borrowed++;
+                    for (int j=i; j<available-1; j++) {
+                        availableBooks[j] = availableBooks[j+1];
+                    }
+                    available--;
+                    availableBooks[available] = "";
+                   	return;
+                }
+            }
+            cout << "Sorry, but this book is not available at the moment"<<endl;
+        }
+
+        void returnBook() {
+            string book;
+            cout << "Enter the name of the book you would like to return: ";
+            getline(cin, book);
+            for (int i = 0; i < borrowed; i++) {
+                if (borrowedBooks[i] == book) {
+                    cout << "Book returned successfully." << endl;
+                    availableBooks[available] = borrowedBooks[i];
+                    available++;
+                    for (int j = i; j < borrowed - 1; j++) {
+                        borrowedBooks[j] = borrowedBooks[j + 1];
+                    }
+                    borrowed--; 
+                    borrowedBooks[borrowed] = ""; 
+                    return;
+                }
+            }
+            cout << "This book was not borrowed from the library"<<endl;
+        }
+
+        void displayBooks() {
+            cout<<"Displaying all library books:"<<endl;
+            for (int i=0; i<totalBooks; i++) {
+                if (bookList[i] != "") {
+                    cout << bookList[i]<<endl;
+                }
+            }
+        }
+
+        void displayAvailable() {
+            cout << "Displaying all the available books:"<<endl;
+            for (int i=0; i<available; i++) {
+                if (availableBooks[i] != "") {
+                    cout << availableBooks[i]<<endl;
+                }
+            }
+        }
+        void displayBorrowed() {
+            cout << "Displaying all the borrowed books:"<<endl;
+            for (int i=0; i<borrowed; i++) {
+                if (borrowedBooks[i] != "") {
+                    cout << borrowedBooks[i]<<endl;
+                }
+            }
+        }
+
+};
+
+
+int main() {
+    Library Hamza;
+
+    int choice;
+    do {
+        cout << "\nWelcome to the library inventory!\nPlease choose one of the options from the menu:\n1. Add book\n2. lend book to students\n3. Return book\n4. Display all library books\n5. Display all available books\n6. Display borrowed books\n7. Exit" << endl << endl;
+        cout << "Enter the choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice) {
+            case 1:  Hamza.addBook();
+                break;
+            case 2: Hamza.lendBook();
+                break;
+            case 3: Hamza.returnBook();
+                break;
+            case 4: Hamza.displayBooks();
+            	break;
+            case 5: Hamza.displayAvailable();
+                break;
+            case 6: Hamza.displayBorrowed();
+                break;
+            case 7: cout << "You are now exiting the inventory. Have a nice day!" << endl;
+                break;
+            default: cout << "Invalid choice! Please try again." << endl;
+        }
+
+    } while (choice != 7);
+
+    return 0;
+}
