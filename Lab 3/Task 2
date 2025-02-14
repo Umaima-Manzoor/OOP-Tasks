@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+
+
+class FitnessTracker {
+    private:
+        string userName;
+        int dailyStepGoal;
+        int stepsTaken;
+        float caloriesBurned;
+
+    public:
+
+        FitnessTracker(string name, int goal) {
+            userName = name;
+            dailyStepGoal = goal;
+            stepsTaken = 0;
+            caloriesBurned = 0;
+        }
+
+        void logSteps() {
+            int steps;
+            cout << "Enter the number of steps you have taken: ";
+            cin >> steps;
+            if (steps < 0) {
+                cout << "Invalid number of steps!! Try again."<<endl;
+            }
+            else {
+                stepsTaken += steps;
+            }
+        }
+
+        void calories() {
+            caloriesBurned = stepsTaken * 0.04;
+            cout << "Calories Burned: "<< caloriesBurned;
+        }
+
+        void checkGoal() {
+            if (stepsTaken>=dailyStepGoal) {
+                cout << "You have achieved your daily goal!! Congratulations!!"<<endl;
+            }
+
+            else {
+                int left = dailyStepGoal - stepsTaken;
+                cout << "You're almost there! Just "<<left<<" steps left!"<<endl;
+            }
+        }
+
+        void displayProgress() {
+            cout << "Daily Steps Goal: "<< dailyStepGoal<<endl;
+            cout << "Steps Taken So Far: "<< stepsTaken<<endl;
+            checkGoal();
+        }
+};
+
+
+int main () {
+
+    FitnessTracker Laiba("Laiba", 10000);
+
+    int choice;
+    do {
+        cout << "\nWelcome to your fitness tracker system!\nPlease choose one of the options from the menu:\n1. Log steps\n2. Calculate Calories Burned\n3. Display Progress\n4. Exit" << endl << endl;
+        cout << "Enter the choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: 
+                Laiba.logSteps();
+                break;
+            case 2: 
+                Laiba.calories();
+                break;
+            case 3: 
+                Laiba.displayProgress();
+                break;
+            case 4: 
+                cout << "You are now exiting the system. Have a nice day!" << endl;
+                break;
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
