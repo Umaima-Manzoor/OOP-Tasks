@@ -1,0 +1,115 @@
+#include <iostream>
+#include <string>
+#include <sstream> 
+using namespace std;
+
+class Wallet {
+private:
+    string ownerName;
+    float totalBalance;
+    string transactionHistory[100];
+    int count;
+
+public:
+    Wallet(string name, float balance) {
+        ownerName = name;
+        totalBalance = balance;
+        count = 0;
+    }
+
+    string floatToString(float value) {
+        ostringstream oss; 
+        oss << value; 
+        return oss.str(); 
+    }
+
+    void addMoney() {
+        float amount;
+        cout << "Enter the amount of money you would like to deposit: ";
+        cin >> amount;
+
+        if (amount < 0) {
+            cout << "Invalid amount number!! Try again" << endl;
+        } else {
+            totalBalance += amount;
+            if (count < 100) {
+                transactionHistory[count] = "Amount added to the wallet: $" + floatToString(amount);
+            } else {
+                for (int i = 0; i < 99; i++) {
+                    transactionHistory[i] = transactionHistory[i + 1];
+                }
+                transactionHistory[99] = "Amount added to the wallet: $" + floatToString(amount);
+            }
+            count++;
+            cout << "$" << amount << " deposited successfully!" << endl;
+        }
+    }
+
+    void spendMoney() {
+        float amount;
+        cout << "Enter the amount of money you would like to withdraw: ";
+        cin >> amount;
+
+        if (amount < 0) {
+            cout << "Invalid amount number!! Try again" << endl;
+        } else if (totalBalance < amount) {
+            cout << "You do not have enough balance to withdraw!" << endl;
+        } else {
+            totalBalance -= amount;
+            if (count < 100) {
+                transactionHistory[count] = "Amount withdrawn from the wallet: $" + floatToString(amount);
+            } else {
+                for (int i = 0; i < 99; i++) {
+                    transactionHistory[i] = transactionHistory[i + 1];
+                }
+                transactionHistory[99] = "Amount withdrawn from the wallet: $" + floatToString(amount);
+            }
+            count++;
+            cout << "$" << amount << " withdrawn successfully!" << endl;
+        }
+    }
+
+    void displayTransactionHistory() {
+        cout << "\n\nTransaction History:" << endl;
+        for (int i = 0; i < count; i++) {
+            cout << transactionHistory[i] << endl;
+        }
+    }
+    
+    void displayBalance() {
+    	cout << "Current Balance: $"<< totalBalance;
+	}
+};
+
+int main() {
+    Wallet Saad("Saad", 560.43);
+
+    int choice;
+    do {
+        cout << "\nWelcome to your wallet system!\nPlease choose one of the options from the menu:\n1. Add money\n2. Spend money\n3. Display Transaction History\n4. Display Current Balance\n5. Exit" << endl << endl;
+        cout << "Enter the choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: 
+                Saad.addMoney();
+                break;
+            case 2: 
+                Saad.spendMoney();
+                break;
+            case 3: 
+                Saad.displayTransactionHistory();
+                break;
+            case 4: Saad.displayBalance();
+            	break;
+            case 5: 
+                cout << "You are now exiting the wallet. Have a nice day!" << endl;
+                break;
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
