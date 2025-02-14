@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+
+class Car {
+    private:
+        string brand;
+        string model;
+        float price;
+        bool status;
+
+    public:
+
+        Car() {
+            brand = "Unknown";
+            model = "Generic";
+            price = 0.0;
+            status = true;
+        }
+
+        Car(string br, string mo, float p, bool av) {
+        	brand = br;
+        	model = mo;
+        	price = p;
+        	status = av;
+		}
+		
+		void applyDiscount(int days) {
+			int discount;
+			if (days == 5) {
+				discount = price * 0.05;
+				price -= discount;
+				cout << "Price after discount: "<< price;
+			}
+			else if (days > 10) {
+				discount = price * 0.10;
+				price -= discount;
+				cout << "Price after discount: "<< price;
+			}
+			else {
+				cout << "No discount";
+			}
+		} 
+
+        void setBrand(string name) {
+            brand = name;
+
+        }
+
+        void setModel(string mo) {
+            model = mo;
+        }
+
+        void setPrice(float p) {
+            price = p;
+        }
+
+        void rentalRequest() {
+            bool check = Availability();
+            if (check == true) {
+                cout << " you have now rented this car"<<endl;
+                status = false;
+            }
+
+        
+        }
+
+        bool Availability() {
+            if (status==true) {
+                cout << "This car is available"<<endl;
+                return true;
+            }
+            else {
+                cout << "This car is not available"<<endl;
+                return false;
+            }
+        }
+}; 
+
+int main() {
+//    Car car1;
+//    car1.setBrand("Toyota");
+//    car1.setPrice(546156.544);
+//    car1.rentalRequest();
+//    car1.Availability();
+    Car c2("Honda", "Manual", 64.3, true);
+    c2.applyDiscount(7);
+}
