@@ -1,0 +1,105 @@
+#include <iostream>
+using namespace std;
+
+
+class Car {
+
+    private:
+        string brand;
+        string model;
+        float fuelCapacity;
+        float currentFuelLevel;
+        float minimum;
+
+    public:
+
+        Car(string br, string mo, float capacity) {
+            brand = br;
+            model = mo;
+            fuelCapacity = capacity;
+            currentFuelLevel = capacity;
+            minimum = capacity / 8;
+        }
+
+        void checkFuelStatus() {
+            
+            cout << "Current fuel level: "<<currentFuelLevel<<endl;
+            if (currentFuelLevel<= minimum) {
+                cout << "Warning! Your fuel level is low! You need to refuel."<< endl;
+            }
+
+            else {
+                cout << "You have enough fuel. You are good to go."<<endl;
+            }
+        }
+
+        void drive() {
+            float distance;
+            cout << "Enter the distance you have driven: ";
+            cin >> distance;
+            if (distance < 0) {
+            	cout << "Please enter a positive number!"<<endl;
+            	return;
+			}
+
+            float consumed = distance * 0.1;
+            if (currentFuelLevel<consumed) {
+            	cout << "You currently do not have the fuel to drive "<<distance<<" kilometers. Please refuel first!"<<endl;
+            	return;
+			}
+            currentFuelLevel -= consumed;
+            cout << "You have covered "<< distance <<" kilometers so far!"<<endl;
+        }
+
+        void refuel() {
+            float refill;
+            if (currentFuelLevel==fuelCapacity) {
+            	cout << "No need for a refill. Your tank if full!"<<endl;
+            	return;
+			}
+            cout << "Enter the amount of fuel you would like fill the tank with: ";
+            cin >> refill;
+            if (refill < 0) {
+            	cout << "Please enter a positive number!"<<endl;
+            	return;
+			}
+            currentFuelLevel += refill;
+            if (currentFuelLevel > fuelCapacity) {
+                cout<< "Error! Invalid number. Please enter a smaller amount"<<endl;
+                currentFuelLevel -= refill;
+            }
+            else {
+                cout << "Tank refilled successfully"<<endl;
+            }
+        }
+
+
+
+};
+
+
+int main() {
+    Car Zoya("Toyota", "B338D", 75);
+
+    int choice;
+    do {
+        cout << "\nWelcome to the Car System!\nPlease choose one of the options from the menu:\n1. Drive (reducing fuel level)\n2. Refuel the tank\n3. Check fuel status\n4. Exit" << endl << endl;
+        cout << "Enter the choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:  Zoya.drive();
+                break;
+            case 2: Zoya.refuel();
+                break;
+            case 3: Zoya.checkFuelStatus();
+                break;
+            case 4: cout << "You are now exiting the car system. Have a nice day!" << endl;
+                break;
+            default: cout << "Invalid choice! Please try again." << endl;
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
