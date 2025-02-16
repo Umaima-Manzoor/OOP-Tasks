@@ -26,7 +26,7 @@ class MusicPlayer {
 		void removeSong() {
 			string name;
 			if (count == 0) {
-				cout << "The playlist is currently emply, there is no song to be removed!"<<endl;
+				cout << "The playlist is currently empty, there is no song to be removed!"<<endl;
 				return;
 			}
 			cout << "Enter the name of the song you would like to remove: ";
