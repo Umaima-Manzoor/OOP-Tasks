@@ -60,9 +60,9 @@ class Car {
         	cout << "Price: "<<price<<endl;
         	cout << "Status: ";
         	if (status==true) {
-        		cout << "True";
+        		cout << "Available";
 			}
-			else { cout << "False";
+			else { cout << "Rented";
 			}
 			cout << endl<< endl;
 		}
@@ -84,4 +84,6 @@ int main() {
     car1.Availability();
     cout << "\nApplying for a rental request (again): "<<endl;
     car1.rentalRequest();
+    cout << "\nDetails after renting the car:"<<endl;
+    car1.displayDetails();
 }
