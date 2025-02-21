@@ -36,6 +36,9 @@ class Car {
                 cout << " you have now rented this car"<<endl;
                 status = false;
             }
+            else {
+            	cout << "This car has already been rented"<<endl;
+			}
 
         
         }
@@ -50,12 +53,35 @@ class Car {
                 return false;
             }
         }
+        
+        void displayDetails() {
+        	cout << "Brand: "<<brand<<endl;
+        	cout << "Model: "<<model<<endl;
+        	cout << "Price: "<<price<<endl;
+        	cout << "Status: ";
+        	if (status==true) {
+        		cout << "True";
+			}
+			else { cout << "False";
+			}
+			cout << endl<< endl;
+		}
 }; 
 
 int main() {
     Car car1;
+    cout << "Details before updating: "<<endl;
+    car1.displayDetails();
     car1.setBrand("Toyota");
     car1.setPrice(546156.544);
-    car1.rentalRequest();
+    cout << "Details after updating: "<<endl;
+    car1.displayDetails();
+    cout << "Checking availability (before rental request):"<<endl;
     car1.Availability();
+    cout <<"\nApplying for a rental request:"<<endl;
+    car1.rentalRequest();
+    cout << "\nChecking availability (after rental request):"<<endl;
+    car1.Availability();
+    cout << "\nApplying for a rental request (again): "<<endl;
+    car1.rentalRequest();
 }
