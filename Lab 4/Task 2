@@ -25,19 +25,19 @@ class Car {
 		}
 		
 		void applyDiscount(int days) {
-			int discount;
-			if (days == 5) {
+			float discount;
+			if (days > 10) {
+				discount = price * 0.1;
+				price -= discount;
+				cout << "Price after discount: "<< price<<endl;
+			}
+			else if (days > 5) {
 				discount = price * 0.05;
 				price -= discount;
-				cout << "Price after discount: "<< price;
-			}
-			else if (days > 10) {
-				discount = price * 0.10;
-				price -= discount;
-				cout << "Price after discount: "<< price;
+				cout << "Price after discount: "<< price<<endl;
 			}
 			else {
-				cout << "No discount";
+				cout << "No discount will be given. Price will remain same"<<endl;
 			}
 		} 
 
@@ -60,6 +60,9 @@ class Car {
                 cout << " you have now rented this car"<<endl;
                 status = false;
             }
+            else {
+            	cout <<"Sorry, but this car is not available at the moment, hence it cannot be rented"<<endl;
+			}
 
         
         }
@@ -74,14 +77,35 @@ class Car {
                 return false;
             }
         }
+        
+        void displayDetails() {
+        	cout << "Brand: "<<brand<<endl;
+        	cout << "Model: "<<model<<endl;
+        	cout << "Price: "<<price<<endl;
+        	cout << "Status: ";
+        	if (status==true) {
+        		cout << "True";
+			}
+			else { cout << "False";
+			}
+			cout << endl<< endl;
+		}
 }; 
 
 int main() {
-//    Car car1;
-//    car1.setBrand("Toyota");
-//    car1.setPrice(546156.544);
-//    car1.rentalRequest();
-//    car1.Availability();
     Car c2("Honda", "Manual", 64.3, true);
+    cout << "Displaying details:"<<endl;
+    c2.displayDetails();
+    cout << "Checking availability (before rental request):"<<endl;
+    c2.Availability();
+    cout <<"\nApplying for a rental request:"<<endl;
+    c2.rentalRequest();
+    cout << "\nChecking availability (after rental request):"<<endl;
+    c2.Availability();
+    cout << "\nApplying for a rental request (again): "<<endl;
+    c2.rentalRequest();
+    cout << "\nChecking for discount on 7 days:"<<endl;
     c2.applyDiscount(7);
+    cout << "\nDisplaying details (after discount):"<<endl;
+    c2.displayDetails();
 }
