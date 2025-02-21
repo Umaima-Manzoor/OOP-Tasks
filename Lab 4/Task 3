@@ -84,9 +84,9 @@ class Car {
         	cout << "Price: "<<price<<endl;
         	cout << "Status: ";
         	if (status==true) {
-        		cout << "True";
+        		cout << "Available";
 			}
-			else { cout << "False";
+			else { cout << "Rented";
 			}
 			cout << endl<< endl;
 		}
