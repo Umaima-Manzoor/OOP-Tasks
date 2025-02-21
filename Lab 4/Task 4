@@ -61,8 +61,7 @@ class Car {
             bool check = Availability();
             if (check == true) {
                 cout << " you have now rented this car"<<endl;
-                status = false;
-               
+                status = false; 
             }
             else {
             	cout <<"Sorry, but this car is not available at the moment, hence it cannot be rented"<<endl;
@@ -72,12 +71,12 @@ class Car {
         }
         
         void afterRenting() {
-        	if (status==true) {
+        	if (status==false) {
         		cout << "You have now finished your renting period. The car has been returned"<<endl;
-        		status=false;
+        		status = true;
 			}
 			else {
-				cout << "The car is already available, and was not rented in the first place"<<endl;
+				cout << "The car is already available"<<endl;
 			}
 		}
 
@@ -109,7 +108,6 @@ class Car {
 		void totalRevenue(int days) {
 			if (status == false) {
 				this->revenue += price * days;
-				status = true;
 			}
 			else 
 				cout << "Sorry, but since it hasn't been rented, the revenue cannot be updated"<<endl;
@@ -128,15 +126,17 @@ int main() {
     c1.rentalRequest().totalRevenue(7);
     cout << "Display details of Car 1 after renting the car (1st time):"<<endl;
     c1.displayDetails();
+    
+    c1.rentalRequest();
     c1.afterRenting();
     
     c1.rentalRequest().totalRevenue(3);
     cout << "Display details of Car 1 after renting the car (2st time):"<<endl;
     c1.displayDetails();
     c1.afterRenting();
+    
+    c1.afterRenting();
+	cout << "Displaying the details of the Car after returning it after rent (2nd time):"<<endl;
+    c1.displayDetails();
 
-    
-    
-    
- 	
 }
