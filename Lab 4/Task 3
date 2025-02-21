@@ -1,0 +1,121 @@
+#include <iostream>
+using namespace std;
+
+class Car {
+    private:
+        string brand;
+        string model;
+        float price;
+        bool status;
+
+    public:
+
+        Car() {
+            brand = "Unknown";
+            model = "Generic";
+            price = 0.0;
+            status = true;
+        }
+
+        Car(string br, string mo, float p, bool av) {
+        	brand = br;
+        	model = mo;
+        	price = p;
+        	status = av;
+		}
+		
+		void applyDiscount(int days) {
+			float discount;
+			if (days > 10) {
+				discount = price * 0.1;
+				price -= discount;
+				cout << "Price after discount: "<< price<<endl;
+			}
+			else if (days > 5) {
+				discount = price * 0.05;
+				price -= discount;
+				cout << "Price after discount: "<< price<<endl;
+			}
+			else {
+				cout << "No discount will be given. Price will remain same"<<endl;
+			}
+		} 
+
+        void setBrand(string name) {
+            brand = name;
+
+        }
+
+        void setModel(string mo) {
+            model = mo;
+        }
+
+        void setPrice(float p) {
+            price = p;
+        }
+
+        void rentalRequest() {
+            bool check = Availability();
+            if (check == true) {
+                cout << " you have now rented this car"<<endl;
+                status = false;
+            }
+            else {
+            	cout <<"Sorry, but this car is not available at the moment, hence it cannot be rented"<<endl;
+			}
+
+        
+        }
+
+        bool Availability() {
+            if (status==true) {
+                cout << "This car is available"<<endl;
+                return true;
+            }
+            else {
+                cout << "This car is not available"<<endl;
+                return false;
+            }
+        }
+        
+        void displayDetails() {
+        	cout << "Brand: "<<brand<<endl;
+        	cout << "Model: "<<model<<endl;
+        	cout << "Price: "<<price<<endl;
+        	cout << "Status: ";
+        	if (status==true) {
+        		cout << "True";
+			}
+			else { cout << "False";
+			}
+			cout << endl<< endl;
+		}
+		
+		Car (const Car &car2) {
+			brand = car2.brand;
+			model = car2.model;
+			price = car2.price;
+			status = car2.status;
+		}
+		
+		~Car() {
+			cout << "This car of model "<<model<<" is being destroyed"<<endl;
+		}
+}; 
+
+int main() {
+    Car c1("Honda", "Manual", 64.3, true);
+    cout << "Displaying details of Car 1:"<<endl;
+    c1.displayDetails();
+    
+    Car c2 = c1;
+    cout << "Displaying details of Car 2:"<<endl;
+    c2.displayDetails();
+    
+ 	c1.setModel("LFH48");
+ 	cout << "\nDisplaying details of Car 1 after modification:"<<endl;
+ 	c1.displayDetails();
+ 	
+ 	cout << "\nDisplaying details of Car 2 after modification of Car 1 (only):"<<endl;
+ 	c2.displayDetails();
+}
