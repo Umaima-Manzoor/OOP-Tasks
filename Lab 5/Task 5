@@ -1,0 +1,73 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Doctor {
+	private:
+	    string name;
+	    string specialization;
+	    int experience;
+	
+	public:
+	    Doctor() {}
+	
+	    Doctor(string name, string specialization, int experience) : name(name), specialization(specialization), experience(experience) {}
+	
+	    void displayInfo() {
+	        cout << "Doctor's' Name: " << name << endl;
+	        cout << "Doctor's Specialization: " << specialization << endl;
+	        cout << "Doctor'sExperience: " << experience << " years" << endl;
+	    }
+};
+
+class Hospital {
+private:
+    string hospitalName;
+    Doctor* doctors[10]; 
+    int count; 
+
+public:
+    Hospital() {}
+
+    Hospital(string name) : hospitalName(name), count(0) {}
+
+
+    void addDoctor(Doctor* doctor) {
+        if (count < 10) {
+            doctors[count++] = doctor;
+            cout << "Doctor added to the hospital successfully." << endl;
+        } else {
+            cout << "Sorry, but only 10 doctors allowed per hospital" << endl;
+        }
+    }
+
+   
+    void displayDetails() {
+        cout << "\nHospital Name: " << hospitalName << endl;
+        cout << "Doctors currently associated with this hospital:" << endl;
+        for (int i = 0; i < count; i++) {
+            doctors[i]->displayInfo();
+            cout << endl; 
+        }
+    }
+};
+
+int main() {
+
+    Doctor doc1("Dr. Zubia", "Psychiatrist", 2);
+    Doctor doc2("Dr. Wania", "Cardiologist", 5);
+    Doctor doc3("Dr. Umaima", "Neurologist", 8);
+
+
+    Hospital hospital("Dow Medical Hospital");
+
+
+    hospital.addDoctor(&doc1);
+    hospital.addDoctor(&doc2);
+    hospital.addDoctor(&doc3);
+
+
+    hospital.displayDetails();
+
+    return 0;
+}
