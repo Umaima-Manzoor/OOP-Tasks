@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class AlarmSystem {
+	private:
+	    string securityLevel; 
+	
+	public:     
+		AlarmSystem() {}
+	    AlarmSystem(string level) : securityLevel(level) {}
+	
+	    
+	    void displayInfo() {
+	        cout << "Alarm System Security Level: " << securityLevel << endl;
+	    }
+};
+
+class SmartHome {
+	private:
+	    string address; 
+		string owner;      
+	    AlarmSystem Alarm;    
+	
+	public:
+		SmartHome() {}
+	    SmartHome(string address, string level, string owner) : address(address), Alarm(level), owner(owner) {}
+	
+	    
+	    void displayDetails() {
+	    	cout << "Displaying Smart Home Details:"<<endl;
+	    	cout << "Smart Home's Owner: "<<owner<<endl;
+	        cout << "Smart Home Address: " << address << endl;
+	        Alarm.displayInfo(); 
+	    }
+};
+
+int main() {
+    
+    SmartHome home("Gulshan-e-Iqbal", "Medium", "Umaima Manzoor");
+
+    home.displayDetails();
+
+    return 0;
+}
