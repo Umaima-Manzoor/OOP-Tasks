@@ -1,2 +1,70 @@
 #inlcude <iostream>
 using namespace std;
+
+class Student {
+	private:
+		string id;
+		string name;
+		int *scores;
+
+		
+	public:
+		Student() {}
+		
+		Student(string id, string name, int* scores) : id(id), name(name) {
+			this->scores = new int[5];
+			for (int i=0; i<5; i++) {
+				this->scores[i] = scores[i];
+			}
+		}
+		
+		~Student() {
+			delete[] scores;
+		}
+		
+		
+		void displayDetails() {
+			cout << "Student ID: " << id << endl;
+	        cout << "Student Name: " << name << endl;
+	        cout << "Exam Scores: ";
+	        for (int i=0; i<5; i++) {
+	            cout << "Exam "<< i+1<<": "<<scores[i]<<endl;
+	        }
+		}
+		
+		Student(const Student &other) {
+			id = other.id;
+			name = other.name;
+			scores = new int[5];
+			for (int i=0; i<5; i++) {
+				scores[i] = other.scores[i];
+			}
+		}
+		
+	
+};
+
+int main() {
+	int scores1[5] = {43,7,57,13,89};
+	Student s1("24K-0501", "Umaima", scores1);
+	
+	cout << "Original Student (s1) Details:"<<endl;
+	s1.displayDetails();
+	
+	Student s2 = s1;
+	cout << "\nCopy Student (s2) Details:"<<endl;
+	s2.displayDetails();
+	
+	int scores2[5] = {34, 97, 65, 52, 12};
+	Student s3("24K-0501","Zubia", scores2);
+	
+	cout << "\nDisplaying Student 3 Details:"<<endl;
+	s3.displayDetails();
+	
+	Student s4(s3);
+	
+	cout << "\nDisplaying Student 3 Copy Details:"<<endl;
+	s4.displayDetails();
+	
+	return 0;
+}
