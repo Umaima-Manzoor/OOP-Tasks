@@ -21,7 +21,8 @@ class Apartment {
 		Apartment(const Apartment &other) {
 			ID = other.ID;
 			address = other.address;
-			owner = other.owner;
+			owner = new char[strlen(other.owner)+1];
+			strcpy(owner, other.owner);
 		}
 		
 		void displayDetails() {
