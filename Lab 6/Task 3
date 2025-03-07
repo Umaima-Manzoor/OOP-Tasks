@@ -1,0 +1,94 @@
+#include <iostream>
+using namespace std;
+
+class Person {
+	protected:
+		string name;
+		int age;
+	
+	public:
+		Person() {}
+		
+		Person(string name, int age) : name(name), age(age) {}
+		
+		void displayDetails() {
+	        cout << "Name: " << name << endl;
+	        cout << "Age: " << age <<" years" <<endl;
+	    }
+}; 
+
+class Teacher : public Person {
+	protected:
+		string subject;
+	
+	public:
+		Teacher() {}
+		
+		Teacher(string name, int age, string subject) : Person(name, age), subject(subject) {}
+		
+		void displayDetails() {
+			Person::displayDetails();
+			cout<< "Subject: "<<subject<< endl;
+		}
+	
+};
+
+class Researcher : public Teacher {
+	protected:
+		string researchArea;
+		
+	public:
+		Researcher() {}
+		
+		Researcher(string name, int age, string subject, string area) : Teacher(name, age, subject), researchArea(area) {}
+		
+		void displayDetails() {
+			Teacher::displayDetails();
+			cout << "Research Area: "<<researchArea<<endl;
+		}
+	
+		
+};
+
+class Professor : public Researcher {
+	protected:
+		int publications;
+		
+	public:
+		Professor() {}
+		
+		Professor(string name, int age, string subject, string area, int pub) : Researcher(name, age, subject, area), publications(pub) {}
+		
+		void displayDetails() {
+			Researcher::displayDetails();
+			cout << "Publications "<<publications<<endl;
+		}
+	
+		
+};
+
+int main() {
+    string name, subject, researchArea;
+    int age, publications;
+
+
+    cout << "Enter Professor's Name: ";
+    getline(cin, name);
+    cout << "Enter Age: ";
+    cin >> age;
+    cin.ignore();
+    cout << "Enter Subject: ";
+    getline(cin, subject);
+    cout << "Enter Research Area: ";
+    getline(cin, researchArea);
+    cout << "Enter Number of Publications: ";
+    cin >> publications;
+
+
+    Professor professor(name, age, subject, researchArea, publications);
+
+    cout << "\nProfessor Details:" << endl;
+    professor.displayDetails();
+
+    return 0;
+}
