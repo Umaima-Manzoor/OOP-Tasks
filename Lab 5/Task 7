@@ -1,0 +1,118 @@
+#include <iostream>
+using namespace std;
+
+class Product {
+	private:
+		string id;
+		string name;
+		int quantity;
+		
+	public:
+		Product() {}
+		
+		Product(string id, string name, int qty) : id(id), name(name), quantity(qty) {}
+		
+		void displayInfo() {
+			cout << "Product ID: "<<id<<endl;
+			cout << "Product Name: "<<name<<endl;
+			cout << "Quantity: "<<quantity<<endl<<endl;
+		}
+		
+		string getName() {return name;}
+		
+		string getID() {return id;}
+		
+};
+
+class Inventory {
+	private:
+		Product *products[10];
+		int count;
+	
+	
+	public:
+		Inventory() : count(0) {}
+		
+		void addProduct(Product *p) {
+	        if (count < 10) {
+	            products[count++] = p;
+	            cout << "Product added successfully to the inventory." << endl;
+	        } else {
+	            cout << "Sorry, but only 10 products are allowed in the inventory" << endl;
+	        }
+   		}
+
+		void displayProducts()  {
+	        cout << "\nInventory Details:" << endl;
+	        for (int i = 0; i < count; i++) {
+	            products[i]->displayInfo(); 
+	        }
+	    }
+	    
+	    void sortProducts() {
+	        for (int i=0; i < count-1; i++) {
+	            for (int j=0; j < count-i-1; j++) {
+	                if (products[j]->getName() > products[j+1]->getName()) {
+	                    Product *temp = products[j];
+	                    products[j] = products[j+1];
+	                    products[j+1] = temp;
+	                    end = j+1;
+	                }
+	            }
+	        }
+	        
+	        if (end < count-1) {
+			}
+	        cout << "Products have been sorted alphabetically by name successfully" << endl;
+	    }
+	    
+	    void searchProductById(string id) {
+	        for (int i=0; i<count; i++) {
+	            if (products[i]->getID() == id) {
+	                cout << "Product with ID "<< id<<" has been found in the inventory"<<endl;
+	                return;
+	            }
+	        }
+	        cout << "Product with ID " << id << " was not found in the inventory" << endl;
+	    }
+};
+
+
+int main() {
+    Product p1("P-001","Laptop", 45);
+    Product p2("P-002", "Mobile Phone", 21);
+    Product p3("P-003", "Charger", 19);
+    Product p4("P-004", "MacBook", 78);
+    Product p5("P-005", "Colour Pencils", 12);
+    Product p6("P-006", "Charcoal Pencils", 75);
+    Product p7("P-007", "Headphones", 81);
+    Product p8("P-008", "Adapter", 6);
+    Product p9("P-009", "Highlighter", 1);
+    Product p10("P-010", "Pen", 34);
+    
+    Inventory inventory;
+    
+   	inventory.addProduct(&p1);
+   	inventory.addProduct(&p2);
+   	inventory.addProduct(&p3);
+   	inventory.addProduct(&p4);
+   	inventory.addProduct(&p5);
+   	inventory.addProduct(&p6);
+   	inventory.addProduct(&p7);
+   	inventory.addProduct(&p8);
+   	inventory.addProduct(&p9);
+   	inventory.addProduct(&p10);
+
+
+
+    inventory.displayProducts();
+
+    inventory.sortProducts();
+
+    inventory.displayProducts();
+
+    inventory.searchProductById("P-002"); 
+    inventory.searchProductById("P-020"); 
+    
+    return 0;
+}
