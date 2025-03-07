@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+
+class Level{
+	private:
+		string description;
+	
+	public:
+		Level() {} 
+		
+		Level(string desc) : description(desc) {}
+		
+		void displayInfo() {
+			cout << "Level Description: "<< description<<endl;
+		}
+};
+
+class VideoGame{
+	private:
+		string title;
+		string genre;
+		Level levels[10];
+		int count;
+		
+	public:
+		VideoGame() {} 
+		
+		VideoGame(string title, string genre) : title(title), genre(genre), count(0) {}
+		
+		void displayDetails() {
+
+			cout << "Game Title: " << title << endl;
+	        cout << "Game Genre: " << genre << endl;
+	        cout << "Game Levels:" << endl;
+	        for (int i = 0; i < count; i++) {
+	            levels[i].displayInfo(); 
+	        }
+    	}
+		
+		void addLevel(string desc) {
+			if (count < 10) {
+				levels[count++] = Level(desc);
+				cout << "Level added to the video game successfully"<<endl<<endl;
+			}
+			
+			else {
+				cout << "Sorry, but only 10 levels are allowed per game"<<endl<<endl;
+			}
+		}		
+		
+};
+
+int main() {
+    
+    VideoGame game("Fireboy and Watergirl", "Action-Adventure");
+
+   
+    game.addLevel("The Forest");
+    game.addLevel("The Light Temple");
+    game.addLevel("The Diamond Castle");
+
+    game.displayDetails();
+
+    return 0;
+}
