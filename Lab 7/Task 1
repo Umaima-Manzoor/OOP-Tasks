@@ -1,1 +1,170 @@
-#include 
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Device {
+    protected:
+        int deviceID;
+        string deviceName;
+        bool status;
+        string location;
+
+    public:
+        Device() {}
+
+        Device(int id, string name) : deviceID(id), deviceName(name), status(false) {}
+
+        virtual void turnOn() {
+            status = true;
+            cout << deviceName << " with id "<< deviceID<< " has been turned ON"<< endl;
+
+        }
+
+        virtual void turnOff() {
+            status = false;
+            cout << deviceName << " with id "<< deviceID<< " has been turned OFF"<< endl;
+
+        }
+
+        virtual string getStatus() {
+            if (status) {
+                return "ON";
+            }
+            else {
+                return "OFF";
+            }
+        }
+
+        virtual void displayInfo() {
+           cout << "Device ID: " << deviceID << endl;
+        cout << "Device Name: " << deviceName << endl;
+        cout << "Status: " << getStatus() << endl;
+    }
+
+
+};
+
+class Light : public Device {
+    private:
+        int brightnessLevel;
+        string colorMode;
+
+    public:
+        Light() {}
+
+        Light(int id, string name, int level, string mode) : Device(id, name), brightnessLevel(level), colorMode(mode) {}
+
+        void displayInfo () override {
+            Device::displayInfo();
+            cout << "Brightness Level: "<<brightnessLevel<<endl;
+            cout << "Color Mode: "<< colorMode<<endl;
+        }
+
+};
+
+
+class Thermostat : public Device {
+    private:
+        float temperature;
+        string mode; 
+        float targetTemperature;
+
+    public:
+        Thermostat() {}
+
+        Thermostat(int id, string name, float temp, string m, float target) : Device(id, name), temperature(temp), mode(m), targetTemperature(target) {}
+
+        string getStatus() override {
+            return "Current Temperature: " + to_string(temperature) + " degree Celcius";
+
+        }
+
+        void displayInfo() override {
+            Device::displayInfo();
+            cout << getStatus() << endl;
+            cout << "Mode: "<< mode<<endl;
+            cout << "Target Temperature: " << targetTemperature << " degree Celcius" << endl;
+    }
+
+
+};
+
+
+class SecurityCamera : public Device {
+    private:
+        string resolution;
+        bool recordingStatus;
+        bool nightVisionEnabled;
+
+    public:
+        SecurityCamera() {}
+
+        SecurityCamera(int id, string name, string res, bool nightVision)
+        : Device(id, name), resolution(res), nightVisionEnabled(nightVision), recordingStatus(false) {}
+
+        void turnOn() override {
+            Device::turnOn();
+            recordingStatus = true;
+            cout << "The security camera is now recording"<< endl;
+        }
+
+        void displayInfo() override {
+            Device::displayInfo();
+            cout << "Resolution: " << resolution << endl;
+            cout << "Recording Status: " << (recordingStatus ? "Recording" : "Not Recording") << endl;
+            cout << "Night Vision: " << (nightVisionEnabled ? "Enabled" : "Disabled") << endl;
+    }
+
+};
+
+class SmartPlug : public Device {
+private:
+    float powerConsumption; 
+    int timerSetting;
+
+public:
+    SmartPlug() {}
+    SmartPlug(int id, string name, float power, int timer)
+        : Device(id, name), powerConsumption(power), timerSetting(timer) {}
+
+    void turnOff() override {
+        Device::turnOff();
+        cout << deviceName << " has consumed " << powerConsumption << " watts." << endl;
+
+    }
+
+    void displayInfo() override {
+        Device::displayInfo();
+        cout << "Power Consumption: " << powerConsumption << " watts" << endl;
+        cout << "Timer Setting: " << timerSetting << " minutes" << endl;
+    }
+};
+
+int main() {
+ 
+    Light light(1, "Bedroom Light", 75, "Warm White");
+    Thermostat thermostat(2, "Home Thermostat", 22.5, "cooling", 20.0);
+    SecurityCamera camera(3, "Front Door Camera", "1080p", true);
+    SmartPlug plug(4, "Kitchen Smart Plug", 150, 30);
+
+    light.turnOn();
+    light.displayInfo();
+    cout << endl;
+
+    thermostat.turnOn();
+    thermostat.displayInfo();
+    cout << endl;
+
+    camera.turnOn();
+    camera.displayInfo();
+    cout << endl;
+
+    plug.turnOn();
+    plug.displayInfo();
+    cout << endl;
+
+    plug.turnOff();
+    cout << endl;
+
+    return 0;
+}
