@@ -1,1 +1,163 @@
-#
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+    string contactNumber;
+    string address;
+
+public:
+    Person() {}
+    Person(string n, int a, string contact, string ad = "") : name(n), age(a), contactNumber(contact), address(ad) {}
+
+    void displayInfo() {
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+        cout << "Contact Number: " << contactNumber << endl;
+        if (address != "")
+            cout << "Address: " << address << endl;
+    }
+
+    void updateInfo(string n, int a, string contact, string ad) {
+        name = n;
+        age = a;
+        contactNumber = contact;
+        address = ad;
+    }
+    
+    string getName() {
+        return name;
+    }
+};
+
+class Doctor; 
+
+class Patient : public Person {
+private:
+    int patientID;
+    string medicalHistory;
+    Doctor* doctorAssigned; 
+
+public:
+    Patient(int id, string n, int a, string contact, string ad, string history, Doctor* doctor)
+        : Person(n, a, contact, ad), patientID(id), medicalHistory(history), doctorAssigned(doctor) {}
+
+	void displayInfo();
+    
+};
+
+class Doctor : public Person {
+private:
+    string specialization;
+    float consultationFee;
+    Patient* patientsList[10];
+    int count; 
+
+public:
+    Doctor(string n, int a, string contact, string addr, string spec, float fee)
+        : Person(n, a, contact, addr), specialization(spec), consultationFee(fee), count(0) {}
+
+    void addPatient(Patient* p) { 
+        if (count < 10) {
+            patientsList[count++] = p; 
+        } else {
+            cout << "Patient list is full!" << endl;
+        }
+    }
+
+    void displayInfo() {
+        Person::displayInfo();
+        cout << "Specialization: " << specialization << endl;
+        cout << "Consultation Fee: $" << consultationFee << endl;
+        cout << "Patients List: ";
+        for (int i = 0; i < count; i++) {
+            cout << patientsList[i]->getName() << (i < count - 1 ? ", " : ""); 
+        }
+        cout << endl;
+    }
+};
+
+void Patient:: displayInfo() {
+        Person::displayInfo();
+        cout << "Patient ID: " << patientID << endl;
+        cout << "Medical History: " << medicalHistory << endl;
+        if (doctorAssigned) {
+            cout << "Doctor Assigned: " << doctorAssigned->getName() << endl; 
+        }
+    }
+
+
+class Nurse : public Person {
+private:
+    string assignedWard;
+    string shiftTimings;
+
+public:
+    Nurse(string n, int a, string contact, string addr, string ward, string shift)
+        : Person(n, a, contact, addr), assignedWard(ward), shiftTimings(shift) {}
+
+    void displayInfo() {
+        Person::displayInfo();
+        cout << "Assigned Ward: " << assignedWard << endl;
+        cout << "Shift Timings: " << shiftTimings << endl;
+    }
+};
+
+
+class Administrator : public Person {
+private:
+    string department;
+    float salary;
+
+public:
+    Administrator(string n, int a, string contact, string addr, string dept, float sal)
+        : Person(n, a, contact, addr), department(dept), salary(sal) {}
+
+    void displayInfo() {
+        Person::displayInfo();
+        cout << "Department: " << department << endl;
+        cout << "Salary: $" << salary << endl;
+    }
+
+    void updateInfo(string n, int a, string contact, string ad, string dept, float sal) {
+        Person::updateInfo(n, a, contact, ad);
+        department = dept;
+        salary = sal;
+    }
+};
+
+int main() {
+    Doctor doctor("Dr. Zubia", 23, "987-654-3210", "Block 10, Gulshan-e-Iqbal", "Cardiology", 150.00);
+    Patient patient1(1, "Umaima Manzoor", 19, "123-456-7890", "Block 2, Gulshan-e-Iqbal", "None", &doctor);
+    Patient patient2(2, "Mirha Maaz", 28, "123-456-7891", "North Nazimabad", "None", &doctor);
+    Nurse nurse("Aisha Rehman", 28, "555-123-4567", "Gulistan-e-Jauhar", "Cardiology", "9 AM - 5 PM");
+    Administrator admin("Malaika Aftab", 50, "444-555-6666", "Abid Town", "HR", 60000.00);
+
+    doctor.addPatient(&patient1);
+    doctor.addPatient(&patient2);
+
+    cout << "Patient Information:" << endl;
+    patient1.displayInfo();
+    cout << endl;
+
+    cout << "Doctor Information:" << endl;
+    doctor.displayInfo();
+    cout << endl;
+
+    cout << "Nurse Information:" << endl;
+    nurse.displayInfo();
+    cout << endl;
+
+    cout << "Administrator Information:" << endl;
+    admin.displayInfo();
+    cout << endl;
+
+    admin.updateInfo("Arsal Ansari", 26, "444-555-6666", "FB Area", "HR", 65000.00);
+    cout << "Updated Administrator Information:" << endl;
+    admin.displayInfo();
+
+    return 0;
+}
