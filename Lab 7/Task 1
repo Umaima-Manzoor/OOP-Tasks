@@ -12,7 +12,7 @@ class Device {
     public:
         Device() {}
 
-        Device(int id, string name) : deviceID(id), deviceName(name), status(false) {}
+        Device(int id, string name, string location="") : deviceID(id), deviceName(name), status(false), location(location) {}
 
         virtual void turnOn() {
             status = true;
@@ -37,8 +37,11 @@ class Device {
 
         virtual void displayInfo() {
            cout << "Device ID: " << deviceID << endl;
-        cout << "Device Name: " << deviceName << endl;
-        cout << "Status: " << getStatus() << endl;
+	        cout << "Device Name: " << deviceName << endl;
+	        cout << "Status: " << getStatus() << endl;
+	        if (location != "") {
+	        	cout << "Location: "<< location<<endl;
+			}
     }
 
 
