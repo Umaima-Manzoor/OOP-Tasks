@@ -1,1 +1,156 @@
-#
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+class Product {
+	protected:
+	    int productID;
+	    string productName;
+	    float price;
+	    int stockQuantity;
+	
+	public:
+		Product() {}
+		
+	    Product(int id, string name, float p, int stock = 0)
+	        : productID(id), productName(name), price(p), stockQuantity(stock) {}
+	
+	    virtual void displayProductInfo() {
+	        cout << "Product ID: " << productID << endl;
+	        cout << "Product Name: " << productName << endl;
+	        cout << "Price: $" << price << endl;
+	        cout << "Stock Quantity: " << stockQuantity << endl;
+	    }
+	
+	    virtual float applyDiscount(float discountPercentage) {
+	        return price - (price * discountPercentage / 100);
+	    }
+	
+	    virtual float calculateTotalPrice(int quantity) {
+	        return price * quantity;
+	    }
+	
+	    float operator+(int quantity) {
+	        return calculateTotalPrice(quantity);
+	    }
+};
+
+
+class Electronics : public Product {
+	private:
+	    int warrantyPeriod; // in months
+	    string brand;
+	
+	public:
+		Electronics() {}
+		
+	    Electronics(int id, string name, float p, int stock, int warranty, string b)
+	        : Product(id, name, p, stock), warrantyPeriod(warranty), brand(b) {}
+	
+	    void displayProductInfo() override {
+	        Product::displayProductInfo();
+	        cout << "Warranty Period: " << warrantyPeriod << " months" << endl;
+	        cout << "Brand: " << brand << endl;
+	    }
+	
+	    float applyDiscount(float discountPercentage) override {
+	        return Product::applyDiscount(discountPercentage);
+	    }
+};
+
+
+class Clothing : public Product {
+	private:
+	    string size;
+	    string color;
+	    string fabricMaterial;
+	
+	public:
+		Clothing() {}
+		
+	    Clothing(int id, string name, double p, int stock, string s, string c, string material)
+	        : Product(id, name, p, stock), size(s), color(c), fabricMaterial(material) {}
+	
+	    void displayProductInfo() override {
+	        Product::displayProductInfo();
+	        cout << "Size: " << size << endl;
+	        cout << "Color: " << color << endl;
+	        cout << "Fabric Material: " << fabricMaterial << endl;
+	    }
+	
+	    float applyDiscount(float discountPercentage) override {
+	        return Product::applyDiscount(discountPercentage);
+	    }
+};
+
+
+class FoodItem : public Product {
+	private:
+	    string expirationDate;
+	    int calories;
+	
+	public:
+		FoodItem() {}
+	    FoodItem(int id, string name, double p, int stock, string expDate, int cal)
+	        : Product(id, name, p, stock), expirationDate(expDate), calories(cal) {}
+	
+	    void displayProductInfo() override {
+	        Product::displayProductInfo();
+	        cout << "Expiration Date: " << expirationDate << endl;
+	        cout << "Calories: " << calories << " kcal" << endl;
+	    }
+	
+	    float calculateTotalPrice(int quantity) override {
+	        return Product::calculateTotalPrice(quantity) * 0.9; 
+	    }
+};
+
+
+class Book : public Product {
+	private:
+	    string author;
+	    string genre;
+	
+	public:
+		Book() {}
+	    Book(int id, string name, double p, int stock, string a, string g)
+	        : Product(id, name, p, stock), author(a), genre(g) {}
+	
+	    void displayProductInfo() override {
+	        Product::displayProductInfo();
+	        cout << "Author: " << author << endl;
+	        cout << "Genre: " << genre << endl;
+	    }
+};
+
+
+ostream& operator<<(ostream& os, Product& product) {
+    product.displayProductInfo();
+    return os;
+}
+
+int main() {
+    
+    Electronics laptop(1, "Laptop", 999.99, 10, 24, "Del");
+    Clothing shirt(2, "T-Shirt", 19.99, 50, "M", "Blue", "Cotton");
+    FoodItem apple(3, "Apple", 0.99, 100, "2023-12-31", 95);
+    Book novel(4, "Novel", 14.99, 30, "Author Name", "Fiction");
+
+    
+    cout << "Product Information:" << endl;
+    cout << laptop << endl;
+    cout << shirt << endl;
+    cout << apple << endl;
+    cout << novel << endl;
+
+    
+    double discountedPrice = laptop.applyDiscount(10); 
+    cout << "Discounted Price of Laptop: $" << discountedPrice << endl;
+
+    int quantity = 5;
+    double totalPrice = apple + quantity; 
+    cout << "Total Price for " << quantity << " Apples: $" << totalPrice << endl;
+
+    return 0;
+}
