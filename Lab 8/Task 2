@@ -1,1 +1,102 @@
-#
+#include <iostream>
+using namespace std;
+
+class Account {
+	private:
+	    int accountNumber;
+	    float balance;
+	
+	public:
+		Account() {}
+		
+	    Account(int accNum, float initialBalance) {
+	        accountNumber = accNum;
+	        balance = initialBalance;
+	    }
+	    
+	    friend class Manager;
+	   
+	    friend void transferFunds(Account& from, Account& to, float amount);
+};
+
+class Manager {
+	
+	public:
+	    
+	    void displayAccount(const Account& acc) {
+	        cout << "Account Number: " << acc.accountNumber << endl;
+	        cout << "Balance: $" << acc.balance << endl;
+	    }
+	    
+	   
+	    void deposit(Account& acc, float amount) {
+	        if (amount > 0) {
+	            acc.balance += amount;
+	            cout << "Deposited $" << amount << " successfully" << endl;
+	        } else {
+	            cout << "Invalid deposit amount. Amount must be positive." << endl;
+	        }
+	    }
+	    
+	    
+	   
+	    void withdraw(Account& acc, float amount) {
+	        if (amount <= 0) {
+	            cout << "Invalid withdrawal amount. Amount must be positive." << endl;
+	            return;
+	        }
+	        if (amount > acc.balance) {
+	            cout << "Insufficient funds. Current balance: $" << acc.balance << endl;
+	            return;
+	        }
+	        acc.balance -= amount;
+	        cout << "Withdrawn $" << amount << " successfully" << endl;
+	    }
+};
+
+
+void transferFunds(Account& from, Account& to, float amount) {
+    if (amount <= 0) {
+        cout << "Invalid transfer amount. Amount must be positive." << endl;
+        return;
+    }
+    if (amount > from.balance) {
+        cout << "Insufficient funds for transfer. Current balance: $" << from.balance << endl;
+        return;
+    }
+    
+    from.balance -= amount;
+    to.balance += amount;
+    cout << "Successfully transferred $" << amount << " from Account " << from.accountNumber 
+         << " to Account " << to.accountNumber << endl;
+}
+
+int main() {
+    
+    Account acc1(501, 1000);
+    Account acc2(502, 512);
+    
+   
+    Manager manager;
+    
+    cout << "Initial account states:" << endl;
+    manager.displayAccount(acc1);
+    manager.displayAccount(acc2);
+    
+    cout << "\nPerforming operations:" << endl;
+    
+    
+    manager.deposit(acc1, 500.0);
+    
+   
+    manager.withdraw(acc2, 200.0);
+    
+   
+    transferFunds(acc1, acc2, 300.0);
+    
+    cout << "\nFinal account states:" << endl;
+    manager.displayAccount(acc1);
+    manager.displayAccount(acc2);
+    
+    return 0;
+}
