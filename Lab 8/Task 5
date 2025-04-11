@@ -1,1 +1,109 @@
+#include <iostream>
+using namespace std;
 
+class Matrix2x2 {
+	private:
+	    int matrix[2][2];
+	
+	
+	public:
+	    
+	    Matrix2x2(int a11 = 0, int a12 = 0, int a21 = 0, int a22 = 0) {
+	        matrix[0][0] = a11;
+	        matrix[0][1] = a12;
+	        matrix[1][0] = a21;
+	        matrix[1][1] = a22;
+	    }
+	
+	    
+	    Matrix2x2 operator+(const Matrix2x2& obj) const {
+	        Matrix2x2 result;
+	        for(int i = 0; i < 2; i++) {
+	            for(int j = 0; j < 2; j++) {
+	                result.matrix[i][j] = matrix[i][j] + obj.matrix[i][j];
+	            }
+	        }
+	        return result;
+	    }
+	
+	    
+	    Matrix2x2 operator-(const Matrix2x2& obj) const {
+	        Matrix2x2 result;
+	        for(int i = 0; i < 2; i++) {
+	            for(int j = 0; j < 2; j++) {
+	                result.matrix[i][j] = matrix[i][j] - obj.matrix[i][j];
+	            }
+	        }
+	        return result;
+	    }
+	
+	
+	    Matrix2x2 operator*(const Matrix2x2& obj) const {
+	        Matrix2x2 result;
+	        for(int i = 0; i < 2; i++) {
+	            for(int j = 0; j < 2; j++) {
+	                result.matrix[i][j] = 0;
+	                for(int k = 0; k < 2; k++) {
+	                    result.matrix[i][j] += matrix[i][k] * obj.matrix[k][j];
+	                }
+	            }
+	        }
+	        return result;
+	    }
+	    
+	    friend int determinant(const Matrix2x2& m);
+	    friend class MatrixHelper;
+	    friend ostream& operator<<(ostream& os, const Matrix2x2& m){
+	    	os << "[" << m.matrix[0][0] << " " << m.matrix[0][1] << "]\n";
+    		os << "[" << m.matrix[1][0] << " " << m.matrix[1][1] << "]";
+    		return os;
+		}
+};
+
+
+class MatrixHelper {
+	public:
+	    void updateElement(Matrix2x2& m, int row, int col, int value) {
+	        if(row >= 0 && row < 2 && col >= 0 && col < 2) {
+	            m.matrix[row][col] = value;
+	            cout << "Element updated successfully!" << endl;
+	        } else {
+	            cout << "Invalid position! Row and column must be 0 or 1." << endl;
+	        }
+	    }
+};
+
+int determinant(const Matrix2x2& m) {
+    return (m.matrix[0][0] * m.matrix[1][1]) - (m.matrix[0][1] * m.matrix[1][0]);
+}
+
+
+
+int main() {
+   
+    Matrix2x2 m1(0, 5, 0, 1);
+    Matrix2x2 m2(2, 0, 2, 5);
+
+    cout << "Matrix 1:\n" << m1 << endl << endl;
+    cout << "Matrix 2:\n" << m2 << endl << endl;
+
+
+    cout << "Matrix Addition (M1 + M2):\n" << (m1 + m2) << endl << endl;
+
+
+    cout << "Matrix Subtraction (M1 - M2):\n" << (m1 - m2) << endl << endl;
+
+
+    cout << "Matrix Multiplication (M1 * M2):\n" << (m1 * m2) << endl << endl;
+
+    cout << "Determinant of Matrix 1: " << determinant(m1) << endl;
+    cout << "Determinant of Matrix 2: " << determinant(m2) << endl << endl;
+
+
+    MatrixHelper helper;
+    cout << "Updating element of Matrix 1..." << endl;
+    helper.updateElement(m1, 0, 0, 5);
+    cout << "Updated Matrix 1:" <<endl<< m1 << endl;
+
+    return 0;
+}
