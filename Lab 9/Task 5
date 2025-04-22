@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+
+
+class Shipment {
+protected:
+    string trackingNumber;
+    double weight;
+
+public:
+    Shipment() {}
+    Shipment(string tracking, double w) : trackingNumber(tracking), weight(w) {}
+
+
+    virtual void estimateDeliveryTime() = 0;
+    virtual void showDetails() = 0;
+};
+
+
+class AirFreight : public Shipment {
+public:
+    AirFreight() {}
+    AirFreight(string tracking, double weight) : Shipment(tracking, weight) {}
+
+    void estimateDeliveryTime()  {
+        cout << "Estimated delivery time for air shipment: 1-2 days" << endl;
+    }
+
+    void showDetails() {
+        cout << "Air Freight Shipment Details:" << endl;
+        cout << "Tracking Number: " << trackingNumber << endl;
+        cout << "Weight: " << weight << " kg" << endl<<endl;
+    }
+};
+
+
+class GroundShipment : public Shipment {
+public:
+    GroundShipment() {}
+    GroundShipment(string tracking, double weight) : Shipment(tracking, weight) {}
+
+    void estimateDeliveryTime()  {
+        cout << "Estimated delivery time for ground shipment: 3-5 days" << endl;
+    }
+
+    void showDetails()  {
+        cout << "Ground Shipment Details:" << endl;
+        cout << "Tracking Number: " << trackingNumber << endl;
+        cout << "Weight: " << weight << " kg" << endl<<endl;
+    }
+};
+
+int main() {
+	
+    AirFreight air("AF123", 25.5);
+    GroundShipment ground("GS456", 100.75);
+
+
+    Shipment* shipments[] = {&air, &ground};
+
+
+    cout << "-------- Shipment Information --------" << endl << endl;
+
+    for(Shipment* shipment : shipments) {
+        shipment->showDetails();
+        shipment->estimateDeliveryTime();
+        cout << endl;
+    }
+
+    return 0;
+}
