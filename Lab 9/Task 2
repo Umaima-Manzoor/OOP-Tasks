@@ -1,0 +1,106 @@
+#include <iostream>
+using namespace std;
+
+class MenuItem {
+protected:
+    string dishName;
+    double price;
+
+public:
+    MenuItem() {}
+    MenuItem(string name, double p) : dishName(name), price(p) {}
+    
+
+
+    virtual void showDetails() = 0;
+    virtual void prepare() = 0;
+
+
+    string getDishName() { 
+		return dishName; }
+    
+	
+	
+	double getPrice() { 
+		return price; }
+};
+
+
+
+class Appetizer : public MenuItem {
+public:
+    Appetizer() {}
+    Appetizer(string name, double price) : MenuItem(name, price) {}
+
+    void showDetails() {
+        cout << "Appetizer: " << dishName << endl;
+        cout << "Price: $" << price << endl<<endl;
+    }
+
+    void prepare() {
+        cout << "Preparing appetizer " << dishName << ":" << endl;
+        cout << "1. Gather fresh ingredients" << endl;
+        cout << "2. Mix ingredients according to recipe" << endl;
+        cout << "3. Plate in small portions" << endl;
+        cout << "4. Garnish and serve immediately" << endl<<endl;
+    }
+};
+
+
+
+class MainCourse : public MenuItem {
+public:
+    MainCourse() {}
+    MainCourse(string name, double price) : MenuItem(name, price) {}
+
+    void showDetails() {
+        cout << "Main Course: " << dishName << endl;
+        cout << "Price: $" << price << endl<<endl;
+    }
+
+    void prepare() {
+        cout << "Preparing main course " << dishName << ":" << endl;
+        cout << "1. Prepare cooking station" << endl;
+        cout << "2. Cook protein to desired temperature" << endl;
+        cout << "3. Prepare accompanying sides" << endl;
+        cout << "4. Plate main dish with sides" << endl;
+        cout << "5. Add sauce and garnish" << endl<<endl;
+    }
+};
+
+int main() {
+	
+    Appetizer app1("Bruschetta", 8.99);
+    Appetizer app2("Calamari", 12.99);
+    MainCourse main1("Grilled Salmon", 24.99);
+    MainCourse main2("Beef Tenderloin", 29.99);
+
+    cout << "---------- Restaurant Menu Items ----------" << endl << endl;
+
+
+    cout << "--- Item 1 ---" << endl;
+    app1.showDetails();
+    cout << "Preparation Steps:" << endl;
+    app1.prepare();
+
+
+
+    cout << "--- Item 2 ---" << endl;
+    app2.showDetails();
+    cout << "Preparation Steps:" << endl;
+    app2.prepare();
+
+    cout << "--- Item 3 ---" << endl;
+    main1.showDetails();
+    cout << "Preparation Steps:" << endl;
+    main1.prepare();
+
+
+    cout << "--- Item 4 ---" << endl;
+    main2.showDetails();
+    cout << "Preparation Steps:" << endl;
+    main2.prepare();
+
+
+    return 0;
+}
