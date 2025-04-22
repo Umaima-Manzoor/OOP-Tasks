@@ -10,14 +10,15 @@ public:
 	Patient() {}
     Patient(string name, string id) 
         : name(name), id(id) {}
-    
-    virtual ~Patient() = default;
+   
 
     virtual void displayTreatment() = 0;
     virtual float calculateCost() = 0;
 
-    string getName() { return name; }
-    string getId() { return id; }
+    string getName() { 
+	return name; }
+    string getId() { 
+	return id; }
 };
 
 
@@ -32,10 +33,7 @@ private:
 
 public:
 	InPatient() {}
-    InPatient(string name, string id,
-              int stayed, float rate, float charges)
-        : Patient(name, id), daysStayed(stayed),
-          dailyRate(rate), medicationCharges(charges) {}
+    InPatient(string name, string id, int stayed, float rate, float charges) : Patient(name, id), daysStayed(stayed), dailyRate(rate), medicationCharges(charges) {}
 
     void displayTreatment()  {
         cout << "Inpatient Treatment Details for " << getName() << " (ID: " << getId() <<  ")"<<endl;
@@ -59,9 +57,7 @@ private:
 
 public:
 	OutPatient() {}
-    OutPatient(string name, string id,
-               int visits, float charge, float tests)
-        : Patient(name, id), numVisits(visits),
+    OutPatient(string name, string id, int visits, float charge, float tests) : Patient(name, id), numVisits(visits),
           visitCharge(charge), testCharges(tests) {}
 
     void displayTreatment() {
