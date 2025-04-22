@@ -1,3 +1,4 @@
+
 #include <iostream>
 using namespace std;
 
@@ -81,7 +82,7 @@ int main() {
     OutPatient OP("Zubia Manzoor", "OP001", 3, 75.0, 250.0);
 
 
-    cout << "---------- Patient Treatment Details ----------"<< endl;
+    cout << "---------- Patient Treatment Details ----------"<< endl<< endl;
     
     IP.displayTreatment();
     cout << endl;
