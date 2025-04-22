@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+
+
+class WeatherSensor {
+protected:
+    float currentReading;
+    int id;
+public:
+	WeatherSensor() {}
+	WeatherSensor(int id) : id(id), currentReading(0) {}
+    virtual void readData(float reading) = 0;
+    virtual void displayReport() = 0;
+};
+
+
+class Thermometer : public WeatherSensor {
+public:
+	Thermometer() {}
+	Thermometer(int id) : WeatherSensor(id) {}
+    void readData(float r)  {
+        currentReading = r;
+        cout << "Reading temperature data: " << currentReading << " Degree Celsius" << endl;
+    }
+
+    void displayReport()  {
+        cout << "Temperature: " << currentReading << " Degree Celsius" << endl;
+    }
+};
+
+class Barometer : public WeatherSensor {
+public:
+	Barometer() {}
+	Barometer(int id) : WeatherSensor(id) {}
+    void readData(float r)  {
+        currentReading = r;
+        cout << "Reading pressure data: " << currentReading << " hPa" << endl;
+    }
+
+    void displayReport()  {
+        cout << "Pressure: " << currentReading << " hPa" << endl;
+    }
+};
+
+int main() {
+	
+    Thermometer thermo;
+    Barometer baro;
+
+
+    WeatherSensor* sensors[] = {&thermo, &baro};
+
+    cout << "Reading Data Into Thermometer:"<<endl;
+    sensors[0]->readData(25.5); 
+	
+	cout << "\nReading data Into Barometer:" <<endl;
+    sensors[1]->readData(1013.2);  
+
+	cout<< endl;
+    for(WeatherSensor* sensor : sensors) {
+        sensor->displayReport();
+    }
+
+    return 0;
+}
