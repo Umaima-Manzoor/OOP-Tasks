@@ -1,0 +1,97 @@
+#include <iostream>
+using namespace std;
+
+class Patient {
+protected:
+    string name;
+    string id;
+
+public:
+	Patient() {}
+    Patient(string name, string id) 
+        : name(name), id(id) {}
+    
+    virtual ~Patient() = default;
+
+    virtual void displayTreatment() = 0;
+    virtual float calculateCost() = 0;
+
+    string getName() { return name; }
+    string getId() { return id; }
+};
+
+
+
+
+
+class InPatient : public Patient {
+private:
+    int daysStayed;
+    float dailyRate;
+    float medicationCharges;
+
+public:
+	InPatient() {}
+    InPatient(string name, string id,
+              int stayed, float rate, float charges)
+        : Patient(name, id), daysStayed(stayed),
+          dailyRate(rate), medicationCharges(charges) {}
+
+    void displayTreatment()  {
+        cout << "Inpatient Treatment Details for " << getName() << " (ID: " << getId() <<  ")"<<endl;
+        cout << "Days Stayed: " << daysStayed << endl;
+        cout << "Daily Rate: $" << dailyRate << endl;
+        cout << "Medication Charges: $" << medicationCharges << endl;
+        cout << "Total Cost: $" << calculateCost() << endl;
+    }
+
+    float calculateCost()  {
+        return (daysStayed * dailyRate) + medicationCharges;
+    }
+};
+
+
+class OutPatient : public Patient {
+private:
+    int numVisits;
+    float visitCharge;
+    float testCharges;
+
+public:
+	OutPatient() {}
+    OutPatient(string name, string id,
+               int visits, float charge, float tests)
+        : Patient(name, id), numVisits(visits),
+          visitCharge(charge), testCharges(tests) {}
+
+    void displayTreatment() {
+        cout << "Outpatient Treatment Details for " << getName() << " (ID: " << getId() << ")\n";
+        cout << "Number of Visits: " << numVisits << endl;
+        cout << "Charge per Visit: $" << visitCharge << endl;
+        cout << "Test Charges: $" << testCharges << endl;
+        cout << "Total Cost: $" << calculateCost() << endl;
+    }
+
+    float calculateCost()  {
+        return (numVisits * visitCharge) + testCharges;
+    }
+};
+
+int main() {
+   
+    InPatient IP("Umaima Manzoor", "IP001", 6, 102.0, 450.5);
+    
+    
+    OutPatient OP("Zubia Manzoor", "OP001", 3, 75.0, 250.0);
+
+
+    cout << "---------- Patient Treatment Details ----------"<< endl;
+    
+    IP.displayTreatment();
+    cout << endl;
+    
+    OP.displayTreatment();
+    cout << endl;
+
+    return 0;
+}
