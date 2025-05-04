@@ -1,0 +1,32 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+    
+    ofstream File1("data_records.txt");
+    if (!File1) {
+        cout << "Error opening file for writing!" << endl;
+        return 1;
+    }
+    File1 << "Record 1\n";
+    File1 << "Record 2\n";
+    File1 << "Record 3\n";
+    File1 << "Record 4\n";
+    File1.close();
+
+
+    ifstream File2("data_records.txt");
+    if (!File2) {
+        cout << "Error opening file for reading!" << endl;
+        return 1;
+    }
+    
+    int offset = 10 * 2; //I did it based on 10 characters per line instead of 9 because on Windows the '\n' character was of 2 bytes not 1
+    File2.seekg(offset, ios::beg);
+    string record;
+    getline(File2, record);
+    cout << "Third record: " << record << endl;
+    File2.close();
+    return 0;
+} 
