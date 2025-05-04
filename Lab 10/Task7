@@ -1,0 +1,20 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+    ofstream File("sensor_log.txt");
+    if (!File) {
+        cout << "Error opening file for writing!" << endl;
+        return 1;
+    }
+
+    File << "Sensor 1: 25.5 C" << endl;
+    cout << "Write position after first line: " << File.tellp() << endl;
+
+    File << "Sensor 2: 98.1 %RH" << endl;
+    cout << "Write position after second line: " << File.tellp() << endl;
+
+    File.close();
+    return 0;
+} 
