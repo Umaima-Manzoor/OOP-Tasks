@@ -1,0 +1,37 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+    
+    ofstream File1("config.txt");
+    if (!File1) {
+        cout << "Error opening file for writing!" << endl;
+        return 1;
+    }
+    File1 << "AAAAABBBBBCCCCC";
+    File1.close();
+
+
+    fstream File2("config.txt", ios::in | ios::out);
+    if (!File2) {
+        cout << "Error opening file for updating!" << endl;
+        return 1;
+    }
+    
+    File2.seekp(5, ios::beg);
+    File2 << "XXXXX";
+    File2.close();
+
+
+    ifstream File3("config.txt");
+    if (!File3) {
+        cout << "Error opening file for reading!" << endl;
+        return 1;
+    }
+    string content;
+    getline(File3, content);
+    cout << "Updated file content: " << content << endl;
+    File3.close();
+    return 0;
+} 
