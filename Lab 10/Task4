@@ -1,0 +1,47 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+int main() {
+    ifstream File("vehicles.txt");
+    string line;
+
+    if (!File.is_open()) {
+        cout << "Error: Could not open vehicles.txt" << endl;
+        return 1;
+    }
+
+    while (getline(File, line)) {
+        if (line.empty() || line[0] == '#')
+            continue;
+        istringstream ss(line);
+        string Type, ID, Name, Year, ExtraData, Certification;
+        getline(ss, Type, ',');
+        getline(ss, ID, ',');
+        getline(ss, Name, ',');
+        getline(ss, Year, ',');
+        getline(ss, ExtraData, ',');
+        getline(ss, Certification, ',');
+
+        if (Type == "AutonomousCar") {
+            size_t pos = ExtraData.find(":");
+            if (pos != string::npos) {
+                string numStr = ExtraData.substr(pos + 1);
+                float swVersion = stof(numStr);
+                cout << "ID: " << ID << ", Software Version: " << swVersion << endl;
+            }
+        } else if (Type == "ElectricVehicle") {
+            size_t pos = ExtraData.find(":");
+            if (pos != string::npos) {
+                string numStr = ExtraData.substr(pos + 1);
+                int batteryCap = stoi(numStr);
+                cout << "ID: " << ID << ", Battery Capacity: " << batteryCap << endl;
+            }
+        }
+    }
+
+    File.close();
+    return 0;
+} 
