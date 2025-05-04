@@ -1,0 +1,64 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+int main() {
+    ifstream File("vehicles.txt");
+    string line;
+
+    if (!File.is_open()) {
+        cout << "Error: Could not open vehicles.txt" << endl;
+        return 1;
+    }
+
+    while (getline(File, line)) {
+        if (line.empty() || line[0] == '#')
+            continue;
+        istringstream ss(line);
+        string Type, ID, Name, Year, ExtraData, Certification;
+        getline(ss, Type, ',');
+        getline(ss, ID, ',');
+        getline(ss, Name, ',');
+        getline(ss, Year, ',');
+        getline(ss, ExtraData, ',');
+        getline(ss, Certification, ',');
+
+        if (Type == "AutonomousCar") {
+            size_t pos = ExtraData.find(":");
+            if (pos != string::npos) {
+                string numStr = ExtraData.substr(pos + 1);
+                float swVersion = stof(numStr);
+                cout << "ID: " << ID << ", Software Version: " << swVersion << endl;
+            }
+
+        } else if (Type == "ElectricVehicle") {
+            size_t pos = ExtraData.find(":");
+            if (pos != string::npos) {
+                string numStr = ExtraData.substr(pos + 1);
+                int batteryCap = stoi(numStr);
+                cout << "ID: " << ID << ", Battery Capacity: " << batteryCap << endl;
+            }
+
+        } else if (Type == "HybridTruck") {
+            size_t colonPos = ExtraData.find(":");
+            size_t pipePos = ExtraData.find("|");
+            size_t batteryPos = ExtraData.find("Battery:");
+            if (colonPos != string::npos && pipePos != string::npos && batteryPos != string::npos) {
+               
+                string cargoStr = ExtraData.substr(colonPos + 1, pipePos - (colonPos + 1));
+                int cargoVal = stoi(cargoStr);
+           
+                string batteryStr = ExtraData.substr(batteryPos + 8);
+                int batteryVal = stoi(batteryStr);
+                cout << "ID: " << ID << ", Cargo: " << cargoVal << ", Battery: " << batteryVal << endl;
+            }
+        } else {
+            cout << "ID: " << ID << ", Unknown vehicle type: " << Type << endl;
+        }
+    }
+
+    File.close();
+    return 0;
+} 
