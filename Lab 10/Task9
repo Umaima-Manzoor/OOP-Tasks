@@ -1,0 +1,40 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+    
+    ofstream File1("large_log.txt");
+    if (!File1) {
+        cout << "Error opening file for writing!" << endl;
+        return 1;
+    }
+    File1 << "This is the first line of the log file.\n";
+    File1 << "This is the second line of the log file.\n";
+    File1 << "And the third part.";
+    File1.close();
+
+
+    ifstream File2("large_log.txt");
+    if (!File2) {
+        cout << "Error opening file for reading!" << endl;
+        return 1;
+    }
+    char buffer[11]; 
+    
+
+
+    File2.read(buffer, 10);
+    buffer[10] = '\0';
+    cout << "First 10 chars: '" << buffer << "'\n";
+    cout << "Read position after first block: " << File2.tellg() << endl;
+
+
+    File2.read(buffer, 10);
+    buffer[10] = '\0';
+    cout << "Next 10 chars: '" << buffer << "'\n";
+    cout << "Read position after second block: " << File2.tellg() << endl;
+
+    File2.close();
+    return 0;
+} 
