@@ -1,0 +1,94 @@
+#include <iostream>
+#include <stdexcept>
+using namespace std;
+
+
+class QueueOverflowException : public runtime_error {
+    
+    public:
+        
+        QueueOverflowException() : runtime_error("std::exception") {}
+    };
+
+class QueueUnderflowException : public runtime_error {
+    public:
+        QueueUnderflowException() : runtime_error("std::exception") {}
+};
+
+template <typename T>
+class Queue {
+private:
+    T* data;
+    int capacity;
+    int front;
+    int rear;
+    int count;
+
+public:
+    Queue(int size) : capacity(size), front(0), rear(-1), count(0) {
+        data = new T[capacity];
+    }
+
+    ~Queue() {
+        delete[] data;
+    }
+
+    void enqueue(const T& item) {
+        if (count >= capacity) {
+            throw QueueOverflowException();
+        }
+        
+        rear = (rear + 1) % capacity;
+        data[rear] = item;
+        count++;
+    }
+
+    T dequeue() {
+        if (count <= 0) {
+            throw QueueUnderflowException();
+        }
+        
+        T item = data[front];
+        front = (front + 1) % capacity;
+        count--;
+        return item;
+    }
+
+    bool isEmpty() const {
+        return count == 0;
+    }
+
+    bool isFull() const {
+        return count == capacity;
+    }
+
+    int size() const {
+        return count;
+    }
+};
+
+
+int main() {
+    Queue<int> q(2);
+    try {
+        q.enqueue(1);
+        q.enqueue(2);
+        cout << "Attempting to enqueue to a full queue..." << endl;
+        q.enqueue(3); 
+    } 
+    
+    catch (const exception& e) {
+        cout << "Caught QueueOverflowException - what(): " << e.what() << endl;
+    }
+
+    try {
+        q.dequeue();
+        q.dequeue();
+        cout << "Attempting to dequeue from an empty queue..." << endl;
+        q.dequeue(); 
+    } 
+    
+    catch (const exception& e) {
+        cout << "Caught QueueUnderflowException - what(): " << e.what() << endl;
+    }
+}
