@@ -3,17 +3,9 @@
 using namespace std;
 
 
-class QueueOverflowException : public runtime_error {
-    
-    public:
-        
-        QueueOverflowException() : runtime_error("std::exception") {}
-    };
+class QueueOverflowException : public exception {};
 
-class QueueUnderflowException : public runtime_error {
-    public:
-        QueueUnderflowException() : runtime_error("std::exception") {}
-};
+class QueueUnderflowException : public exception {};
 
 template <typename T>
 class Queue {
