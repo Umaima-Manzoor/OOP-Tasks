@@ -1,0 +1,73 @@
+#include <iostream>
+#include <stdexcept>
+#include <string>
+using namespace std;
+
+
+class DatabaseException : public exception {
+
+    private:
+        string message;
+    public:
+        string what() { 
+            message =  "A database error occurred.";
+            return message;
+     }
+};
+
+
+class ConnectionFailedException : public DatabaseException {};
+class QueryTimeoutException : public DatabaseException {};
+
+
+template <typename T>
+class DatabaseConnector {
+public:
+    void connect(string dbName) {
+        if (dbName == "invalid_db") {
+            throw ConnectionFailedException();
+        }
+        else if (dbName == "slow_db") {
+            throw DatabaseException(); 
+        }
+        
+        cout << "Connected to " << dbName << endl;
+    }
+
+    void executeQuery(string query) {
+        if (query == "timeout_query") {
+            throw QueryTimeoutException();
+        }
+        
+        cout << "Executed query: " << query << endl;
+    }
+};
+
+int main() {
+    DatabaseConnector<int> connector; 
+    
+    try {
+        cout << "Attempting to connect to invalid_db..." << endl;
+        connector.connect("invalid_db");
+    }
+    catch ( DatabaseException& e) {
+        cout << "Caught ConnectionFailedException - what(): " << e.what() << endl;
+    }
+
+    try {
+        cout << "Attempting to connect to slow_db..." << endl;
+        connector.connect("slow_db");
+    }
+    catch ( DatabaseException& e) {
+        cout << "Caught a general DatabaseException - what(): " << e.what() << endl;
+    }
+
+    
+    try {
+        cout << "Attempting to execute timeout_query..." << endl;
+        connector.executeQuery("timeout_query");
+    }
+    catch (DatabaseException& e) {
+        cout << "Caught QueryTimeoutException - what(): " << e.what() << endl;
+    }
+}
